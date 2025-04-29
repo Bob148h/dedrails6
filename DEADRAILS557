@@ -1,0 +1,134 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "BondsTeleporterGui"
+screenGui.Parent = game:GetService("CoreGui")
+ 
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 350, 0, 220)
+mainFrame.Position = UDim2.new(0.5, -175, 0.5, -110)
+mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Active = true
+mainFrame.Draggable = true
+ 
+local mainCorner = Instance.new("UICorner")
+mainCorner.CornerRadius = UDim.new(0, 15)
+mainCorner.Parent = mainFrame
+ 
+local shadow = Instance.new("Frame")
+shadow.Size = UDim2.new(1, 30, 1, 30)
+shadow.Position = UDim2.new(0, -15, 0, -15)
+shadow.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+shadow.BorderSizePixel = 0
+shadow.ZIndex = -1
+shadow.Parent = mainFrame
+ 
+local shadowCorner = Instance.new("UICorner")
+shadowCorner.CornerRadius = UDim.new(0, 20)
+shadowCorner.Parent = shadow
+ 
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0.3, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "💠 Bonds Teleporter 💠"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextScaled = true
+titleLabel.Parent = mainFrame
+ 
+local fetchButton = Instance.new("TextButton")
+fetchButton.Size = UDim2.new(0.6, 0, 0.3, 0)
+fetchButton.Position = UDim2.new(0.2, 0, 0.6, 0)
+fetchButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+fetchButton.Text = "Fetch"
+fetchButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+fetchButton.Font = Enum.Font.GothamBold
+fetchButton.TextScaled = true
+fetchButton.Parent = mainFrame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 12)
+buttonCorner.Parent = fetchButton
+ 
+local blackOverlay = Instance.new("Frame")
+blackOverlay.Size = UDim2.new(1, 0, 1, 0)
+blackOverlay.Position = UDim2.new(0, 0, 0, 0)
+blackOverlay.BackgroundColor3 = Color3.new(0, 0, 0)
+blackOverlay.BackgroundTransparency = 1
+blackOverlay.Parent = screenGui
+blackOverlay.ZIndex = 5
+ 
+local trickText = Instance.new("TextLabel")
+trickText.Size = UDim2.new(1, 0, 0.1, 0)
+trickText.Position = UDim2.new(0, 0, 0.45, 0)
+trickText.BackgroundTransparency = 1
+trickText.Text = "You have falled for the tung tung tung sahur trick"
+trickText.TextColor3 = Color3.fromRGB(255, 255, 255)
+trickText.Font = Enum.Font.GothamBold
+trickText.TextScaled = true
+trickText.Visible = false
+trickText.ZIndex = 6
+trickText.Parent = screenGui
+ 
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://119426198646977"
+sound.Volume = 10
+sound.Looped = false
+sound.Parent = screenGui
+ 
+local kickMessage = Instance.new("TextLabel")
+kickMessage.Size = UDim2.new(0.5, 0, 0.2, 0)
+kickMessage.Position = UDim2.new(0.25, 0, 0.4, 0)
+kickMessage.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+kickMessage.Text = "Tung tung tung sahur :)"
+kickMessage.TextColor3 = Color3.fromRGB(255, 255, 255)
+kickMessage.Font = Enum.Font.GothamBold
+kickMessage.TextScaled = true
+kickMessage.Visible = false
+kickMessage.ZIndex = 7
+kickMessage.Parent = screenGui
+ 
+local function lockCamera()
+    local player = game.Players.LocalPlayer
+    local camera = workspace.CurrentCamera
+    camera.CameraType = Enum.CameraType.Scriptable
+end
+ 
+local function flashScreen()
+    for i = 1,5 do
+        blackOverlay.BackgroundColor3 = Color3.new(1,0,0)
+        wait(0.1)
+        blackOverlay.BackgroundColor3 = Color3.new(1,1,1)
+        wait(0.1)
+        blackOverlay.BackgroundColor3 = Color3.new(0,0,0)
+        wait(0.1)
+    end
+end
+ 
+local function shakeText()
+    while trickText.Visible do
+        trickText.Position = UDim2.new(0, math.random(-10,10), 0.45, math.random(-10,10))
+        wait(0.05)
+    end
+end
+ 
+local function fadeIn()
+    for i = 1,10 do
+        blackOverlay.BackgroundTransparency = 1 - (i/10)
+        wait(0.1)
+    end
+end
+ 
+fetchButton.MouseButton1Click:Connect(function()
+    fadeIn()
+    trickText.Visible = true
+    sound:Play()
+    lockCamera()
+    spawn(shakeText)
+    flashScreen()
+    wait(5)
+    trickText.Visible = false
+    kickMessage.Visible = true
+end)
